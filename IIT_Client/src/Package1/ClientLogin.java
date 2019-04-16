@@ -38,7 +38,17 @@ public class ClientLogin extends VBox {
 	    }
 	    
 	    public void operationAsClient() {
-			
+			try {
+				System.out.println("Welcome to client. Write stop for close");
+
+		        Socket s=new Socket("localhost",1234);
+
+		        DataInputStream din=new DataInputStream(s.getInputStream());
+		        DataOutputStream dout=new DataOutputStream(s.getOutputStream());
+		        
+			}catch(IOException e){
+				
+			}
 			
 	    }
 }	
