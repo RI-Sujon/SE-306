@@ -1,4 +1,4 @@
-package Package1;
+package package1;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -17,11 +17,11 @@ public class MainClass extends Application {
         
         //createNewFile() ;
        
-        ClientLogin root = new ClientLogin() ;
+        Menu root = new Menu() ;
         
         Scene scene = new Scene(root) ; 
         
-        primaryStage.setTitle("Menu");
+        primaryStage.setTitle("Institute Of Information Technology(IIT)");
         primaryStage.setScene(scene);
         primaryStage.show();   
     }

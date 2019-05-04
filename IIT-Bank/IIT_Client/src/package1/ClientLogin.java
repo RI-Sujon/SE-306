@@ -1,4 +1,4 @@
-package Package1;
+package package1;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -27,9 +27,26 @@ public class ClientLogin extends VBox {
     HBox [] hbox = new HBox[8] ;
     Button []button = new Button[2] ;
     Label serverReplayLabel = new Label() ;
+    
+    String name;
+    String roll;
+    String registration;
+    String nameOfFather;
+    String nameOfMother;
+    String dateOfBirth;
+    String result;
 
-    public ClientLogin(){
-
+    public ClientLogin(String sName,String roll,String reg,String fName,String mName,String dOb ,String result){
+        
+        name = sName ;
+        this.roll = roll ;
+        registration = reg ;
+        nameOfFather = fName ;
+        nameOfMother =mName ;
+        dateOfBirth =dOb ;
+        this.result =result ;
+        
+        
         label[0] = new Label("Account No: ") ;
         label[1] = new Label("Password: ") ;
 
@@ -60,16 +77,20 @@ public class ClientLogin extends VBox {
 
         setAlignment(Pos.CENTER);
         setSpacing(30);
-        //setStyle("-fx-background-color : Beige"); 
+        setStyle("-fx-background-color : Beige"); 
 
-        button[0] = new Button("back") ;
+        button[0] = new Button("BACK") ;
         button[0].setTranslateX(100);
+        button[0].setFont(Font.font("Times new Roman", FontPosture.REGULAR, 28));
+        button[0].setMinSize(100,50 );
+        button[0].setTextFill(Color.WHITE);
+        button[0].setStyle("-fx-background-color: Black");
 
 
         button[1] = new Button("OK") ;
         button[1].setFont(Font.font("Times new Roman", FontPosture.REGULAR, 28));
         button[1].setMinSize(100,50 );
-        button[1].setTextFill(Color.GREENYELLOW);
+        button[1].setTextFill(Color.WHITESMOKE);
         button[1].setStyle("-fx-background-color: Purple");
 
         HBox hBox = new HBox() ;
@@ -83,7 +104,7 @@ public class ClientLogin extends VBox {
                     try {
                         operationAsClient();
                     } catch (IOException ex) {
-                        Logger.getLogger(ClientLogin.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Ex" + e);
                     }
                 });
 
@@ -93,7 +114,7 @@ public class ClientLogin extends VBox {
         String acc = accNumberBox.getText();
         String password = passwordBox.getText();
 
-        Socket s=new Socket("localhost",3319);
+        Socket s=new Socket("localhost",1234);
 
         DataInputStream din=new DataInputStream(s.getInputStream());
         DataOutputStream dout=new DataOutputStream(s.getOutputStream());
@@ -102,8 +123,45 @@ public class ClientLogin extends VBox {
             dout.writeUTF(acc+"&"+password);
             String str = din.readUTF() ;
             
-            serverReplayLabel.setText(str);
+            if(str.equals("3")){
+                serverReplayLabel.setText("Wrong Password. Please try again.");
+            }
             
+            else  {
+                VBox newvbox = new VBox() ;
+                Label newlabel = new Label() ;
+                Button newbutton = new Button("Go to Menu") ;
+                System.out.println("str: " + str);
+                if(str.equals("1")){
+                    CheckPersonal personal = new CheckPersonal() ;
+                    personal.createCertificate(name, roll, registration, nameOfFather, nameOfMother, dateOfBirth, result) ;
+                    newlabel.setText("Successfully Complete");
+                }
+                
+                else if(str.equals("2")){
+                    newlabel.setText("Sorry....Insufficient Balance");
+                }
+                newlabel.setFont(Font.font("Times New Roman",FontWeight.BOLD, FontPosture.ITALIC, 40)); 
+                newvbox.setAlignment(Pos.CENTER);
+                newvbox.setMinSize(1200, 820);
+                newvbox.getChildren().addAll(newlabel,newbutton) ;
+              
+                newbutton.setFont(Font.font("Times new Roman", FontPosture.REGULAR, 30));
+                newbutton.setMinSize(100,40 );
+                newbutton.setTextFill(Color.WHITE);
+                newbutton.setStyle("-fx-background-color: Gray");
+                newvbox.setSpacing(50);
+                Scene scene = new Scene(newvbox) ;
+                newvbox.setStyle("-fx-background-color : Beige");
+                MainClass.getStage().setScene(scene);
+                newbutton.setOnAction(e->goTOMenu());
+            }
             s.close() ;       
-        }
+    }
+    
+    public void goTOMenu(){
+        Menu root1 = new Menu() ;
+        Scene scene1 = new Scene(root1) ;
+        MainClass.getStage().setScene(scene1);
+    }
 }	
