@@ -46,11 +46,11 @@ public class Account {
 
 
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex1:" + e);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex2:" + e);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex3:" + e);
                 }
             }
         }
@@ -87,11 +87,11 @@ public class Account {
 
 
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex1:" + e);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex2:" + e);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex3:" + e);
                 }
 
                 return true;
@@ -120,24 +120,31 @@ public class Account {
                     reader = new ObjectInputStream(new FileInputStream(f));
 
                     User user = (User)reader.readObject();
+                    
+                    reader.close();
+                    
 
                     if(user.getBalance()>=ammount){
                         user.setBalance(user.getBalance()-ammount);
                     }
+                    
+                    else{
+                        return false ;
+                    }
 
-                   writer = new ObjectOutputStream(new FileOutputStream(f)) ;
-                   writer.writeObject(user);
+                    writer = new ObjectOutputStream(new FileOutputStream(f)) ;
+                    writer.writeObject(user);
 
-                    reader.close();
+                    
                     writer.close();
 
 
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex1:" + e);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex2:" + e);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex3:" + e);
                 }
 
                 return true;
@@ -163,11 +170,11 @@ public class Account {
                     return user.getName() + "&" + user.getAccountNumber() + "&" + user.getBalance() ;
         
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex1:" + e);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex2:" + e);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Ex3:" + e);
                 }
             }
         }

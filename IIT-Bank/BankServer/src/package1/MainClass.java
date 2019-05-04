@@ -27,7 +27,7 @@ public class MainClass extends Application {
         
         Scene scene = new Scene(root) ; 
         
-        primaryStage.setTitle("Menu");
+        primaryStage.setTitle("Bank Server ");
         primaryStage.setScene(scene);
         primaryStage.show();   
     }
@@ -36,31 +36,5 @@ public class MainClass extends Application {
     	
     	 launch(args);
          
-        DataInputStream din;
-        DataOutputStream dout;
-        ServerSocket ss;
-        
- 
-            ss = new ServerSocket(3319);
-               
-          
-            while(true){
-                Socket s=ss.accept();
-                din =new DataInputStream(s.getInputStream());
-                dout=new DataOutputStream(s.getOutputStream());
-                String recieve = din.readUTF();
-                System.out.println(recieve);
-                String [] strr = recieve.split("&") ;
-                
-                Account account = new Account() ;
-                if(account.login(strr[0], strr[1])){
-                    if(account.withdraw("100", strr[0])){
-                        dout.writeUTF("Done");
-                    }
-                    
-                    else dout.writeUTF("Insufficiant Balance");
-                }
-                dout.writeUTF("Wrong Password");
-            }
     }
 }
