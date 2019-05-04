@@ -31,6 +31,7 @@ public class BankUIMenu extends VBox {
     HBox [] hbox = new HBox[8] ;
     Button []button = new Button[2] ;
     Label serverReplayLabel = new Label() ;
+    Label lb = new Label("") ;
 
     public BankUIMenu(){
 
@@ -95,7 +96,7 @@ public class BankUIMenu extends VBox {
         VBox vbox2 = new VBox() ;
         
         vbox1.getChildren().addAll(label[5],hbox[0],hbox[1],button[1]);
-        vbox2.getChildren().addAll(label[6],hbox[2],hbox[3],hbox[4],button[0]);
+        vbox2.getChildren().addAll(label[6],hbox[2],hbox[3],hbox[4],button[0],lb);
         
         vbox1.setSpacing(30);
         vbox2.setSpacing(30);
@@ -116,7 +117,6 @@ public class BankUIMenu extends VBox {
         
         setAlignment(Pos.CENTER);
         getChildren().addAll(hBox) ;
-        getChildren().add(serverReplayLabel) ;
 
         button[0].setOnAction(e->{createNewAccount();});
         button[1].setOnAction(e->{loginAccount();});
@@ -140,14 +140,21 @@ public class BankUIMenu extends VBox {
         String name = nameBox.getText();
         String acc = accNumberBox2.getText();
         String password = passwordBox2.getText();
+        
         Account account = new Account() ;
-        account.createAccount(name, acc, password) ;
         
-        AccountUIMenu root = new AccountUIMenu(acc);
+        if(account.passwordChecking(password)){
+            if(account.createAccount(name, acc, password)){
+                AccountUIMenu root = new AccountUIMenu(acc);
+
+                Scene scene = new Scene(root) ;
+                MainClass.getStage().setScene(scene);
+            }
             
-        Scene scene = new Scene(root) ;
-        MainClass.getStage().setScene(scene);
+            else lb.setText("Already Has an Account");
+        }
         
+        else lb.setText("Password will be 8-15 character with Alphabet, Number and Special Character");        
     }
 }	
 

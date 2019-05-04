@@ -7,11 +7,44 @@ public class Account {
     ObjectOutputStream writer = null ;
     ObjectInputStream reader = null ;
 
+    public boolean passwordChecking(String password){
+        
+        if(password.length()>=8&&password.length()<=15){
+            int n=-1 ,flag1=-1 ,flag2=-1,flag3=-1 ;
+            for(int i=0 ; i<password.length() ; i++){
+                n = password.charAt(i) ;
+                if(n>=65&&n<=90 || n>=97&&n<=122){
+                    flag1 = 1 ;
+                }
+                
+                else if(n>=48&&n<=57){
+                    flag2 = 1 ;
+                }
+                
+                else flag3 = 1 ;
+            }
+            
+            if(flag1==1&&flag2==1&&flag3==1){
+                return true ;
+            }
+        }
+        
+        return false ;
+    }
+    
     public boolean createAccount(String name,String accNumber ,String password )
     {
         File file = new File("src/resources/" + accNumber);
         User user = new User(name,accNumber,password);
-
+        File folder = new File("src/resources/");
+        File[] files = folder.listFiles();
+        for(File f: files){
+            if(f.getName().equals(accNumber))
+            {
+                return false ;
+            }
+        
+        }
         try{
             writer = new ObjectOutputStream(new FileOutputStream(file)) ;
             writer.writeObject(user);

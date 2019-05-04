@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -40,6 +41,7 @@ public class AccountUIMenu extends VBox {
         button[0] = new Button("Deposit") ;
         button[1] = new Button("Withdraw") ;
         button[2] = new Button("Transefer Balance") ;
+        button[3] = new Button("Sign out") ;
         
         label[0] = new Label("Name:") ;
         label[1] = new Label("Account No: ") ;
@@ -87,7 +89,7 @@ public class AccountUIMenu extends VBox {
         VBox vbox2 = new VBox() ;
         
         vbox1.getChildren().addAll(hbox[0],hbox[1],hbox[2]);
-        vbox2.getChildren().addAll(button[0],button[1],button[2]);
+        vbox2.getChildren().addAll(button[0],button[1],button[2],button[3]);
         
         vbox1.setSpacing(10);
         vbox2.setSpacing(30);
@@ -112,7 +114,14 @@ public class AccountUIMenu extends VBox {
 
         button[0].setOnAction(e->{depositMoney();});
         button[1].setOnAction(e->{withdraw();});
+        button[3].setOnAction(e->{goToMenu();});
 
+    }
+    
+    public void goToMenu(){
+        BankUIMenu root1 = new BankUIMenu();
+        Scene scene1 = new Scene(root1) ;
+        MainClass.getStage().setScene(scene1);
     }
 	    
     public void depositMoney() {
